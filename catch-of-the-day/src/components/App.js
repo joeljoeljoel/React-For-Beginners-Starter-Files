@@ -43,6 +43,14 @@ class App extends React.Component {
         this.setState({ fishes });
     };
 
+    deleteFish = (key) => {
+        const fishes  = { ...this.state.fishes };
+
+        // can't use delete fishes[key]. firebase requires us to set it to null
+        fishes[key] = null;
+        this.setState({ fishes });
+    }
+
     updateFish = (key, updatedFish) => {
         const fishes = { ...this.state.fishes };
         fishes[key] = updatedFish;
@@ -58,6 +66,12 @@ class App extends React.Component {
         order[key] = order[key] + 1 || 1;
         this.setState({ order });
     };
+
+    removeFromOrder = (key) => {
+        const order = { ...this.state.order };
+        delete order[key];
+        this.setState({ order });
+    }
 
     render() {
         return (
@@ -75,8 +89,8 @@ class App extends React.Component {
                         ))}
                     </ul>
                 </div>
-                <Order order={this.state.order} fishes={this.state.fishes} />
-                <Inventory addFish={this.addFish} loadSampleFishes={this.loadSampleFishes} fishes={this.state.fishes} updateFish={this.updateFish} />
+                <Order order={this.state.order} fishes={this.state.fishes} removeFromOrder={this.removeFromOrder} />
+                <Inventory addFish={this.addFish} loadSampleFishes={this.loadSampleFishes} fishes={this.state.fishes} updateFish={this.updateFish} deleteFish={this.deleteFish} />
             </div>
         )
     }
